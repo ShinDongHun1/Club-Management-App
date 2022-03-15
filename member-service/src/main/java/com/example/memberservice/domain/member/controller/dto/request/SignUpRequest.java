@@ -3,12 +3,14 @@ package com.example.memberservice.domain.member.controller.dto.request;
 import com.example.memberservice.domain.member.service.dto.SignUpDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * Created by ShinD on 2022-03-15.
  */
 
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 public class SignUpRequest {
 

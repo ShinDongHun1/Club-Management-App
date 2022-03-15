@@ -1,4 +1,4 @@
-package com.example.memberservice.global.log;
+package com.example.memberservice.global.aop.log;
 
 /**
  * Created by ShinD on 2022-03-15.

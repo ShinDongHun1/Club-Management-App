@@ -1,4 +1,4 @@
-package com.example.memberservice.global.log;
+package com.example.memberservice.global.aop.log;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

@@ -1,6 +1,4 @@
-package com.example.memberservice.global.log;
-
-import com.example.memberservice.global.log.TraceStatus;
+package com.example.memberservice.global.aop.log;
 
 /**
  * Created by ShinD on 2022-03-15.
