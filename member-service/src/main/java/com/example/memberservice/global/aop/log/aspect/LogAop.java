@@ -2,8 +2,7 @@ package com.example.memberservice.global.aop.log.aspect;
 
 import com.example.memberservice.global.aop.log.LogTrace;
 import com.example.memberservice.global.aop.log.TraceStatus;
-import com.example.memberservice.global.service.SecurityService;
-import lombok.RequiredArgsConstructor;
+import com.example.memberservice.global.security.SecurityService;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;

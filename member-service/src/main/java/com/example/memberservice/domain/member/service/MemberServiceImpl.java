@@ -2,15 +2,20 @@ package com.example.memberservice.domain.member.service;
 
 import com.example.memberservice.domain.member.entity.Member;
 import com.example.memberservice.domain.member.exception.MemberException;
-import com.example.memberservice.domain.member.exception.MemberExceptionType;
 import com.example.memberservice.domain.member.repository.MemberRepository;
 import com.example.memberservice.domain.member.service.dto.MemberInfoDto;
 import com.example.memberservice.domain.member.service.dto.SignUpDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+
+import java.sql.Array;
+import java.util.ArrayList;
 
 import static com.example.memberservice.domain.member.exception.MemberExceptionType.NOT_FOUND;
 
@@ -21,7 +26,7 @@ import static com.example.memberservice.domain.member.exception.MemberExceptionT
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class MemberServiceImpl implements MemberService{
+public class MemberServiceImpl implements MemberService {
 
     private final PasswordEncoder encoder;
     private final MemberRepository memberRepository;
@@ -30,7 +35,6 @@ public class MemberServiceImpl implements MemberService{
 
     @Override
     public Long signUp(SignUpDto signUpDto) {
-
 
         checkDuplicateStudentId(signUpDto.studentId());
 
@@ -53,5 +57,24 @@ public class MemberServiceImpl implements MemberService{
         return new MemberInfoDto(
                 memberRepository.findById(memberId).orElseThrow(() -> new MemberException(NOT_FOUND))
         );
+    }
+
+    @Override
+    public MemberInfoDto getInfoByStudentId(String studentId) {
+        return new MemberInfoDto(
+                memberRepository.findByStudentId(studentId).orElseThrow(() -> new MemberException(NOT_FOUND))
+        );
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
+        System.out.println(username);
+        Member member = memberRepository.findByStudentId(username).orElseThrow(() -> new UsernameNotFoundException(username + "이라는 학번을 가진 사람이 없습니다"));
+
+        return User.builder().username(member.getStudentId())
+                .password(member.getPassword())
+                .authorities(new ArrayList<>())
+                .build();
     }
 }

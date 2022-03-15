@@ -1,4 +1,4 @@
-package com.example.memberservice.global.service;
+package com.example.memberservice.global.security;
 
 import org.springframework.stereotype.Component;
 
