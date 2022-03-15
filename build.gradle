@@ -1,0 +1,41 @@
+plugins {
+	id 'org.springframework.boot' version '2.6.4'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'java'
+}
+
+allprojects {
+
+
+	group = 'com.example'
+	version = '0.0.1-SNAPSHOT'
+	sourceCompatibility = '17'
+
+	repositories {
+		mavenCentral()
+	}
+
+}
+
+subprojects {
+
+	apply {
+		plugin("org.springframework.boot")
+		plugin("io.spring.dependency-management")
+		plugin("java")
+	}
+
+	tasks.jar {
+		enabled = true
+	}
+	tasks.bootJar {
+		enabled = false
+	}
+}
+
+tasks.jar {
+	enabled = true
+}
+tasks.bootJar {
+	enabled = false
+}
