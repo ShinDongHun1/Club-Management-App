@@ -1,5 +1,6 @@
 package com.example.memberservice.domain.member.service;
 
+import com.example.memberservice.domain.member.service.dto.MemberInfoDto;
 import com.example.memberservice.domain.member.service.dto.SignUpDto;
 import com.example.memberservice.global.aop.log.Trace;
 
@@ -12,4 +13,5 @@ public interface MemberService {
     @Trace
     Long signUp(SignUpDto signUpDto);
 
+    MemberInfoDto getInfo(Long memberId);
 }
