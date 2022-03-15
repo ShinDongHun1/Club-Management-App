@@ -5,27 +5,21 @@ import com.example.memberservice.global.jwt.JwtService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.util.StreamUtils;
-import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.lang.reflect.ParameterizedType;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -61,10 +55,8 @@ public class StudentIdPasswordJsonAuthenticationFilter extends UsernamePasswordA
             throw new AuthenticationServiceException("Authentication method not supported: " + request.getMethod());
         }
 
-        String messageBody = getMessageBody(request);
 
-
-        Map<String, String> authMap = objectMapper.readValue(messageBody, new TypeReference<Map<String, String>>() {});
+        Map<String, String> authMap = objectMapper.readValue(getMessageBody(request), new TypeReference<Map<String, String>>() {});
 
 
         String username = authMap.get(SPRING_SECURITY_FORM_STUDENT_ID_KEY);
@@ -85,7 +77,6 @@ public class StudentIdPasswordJsonAuthenticationFilter extends UsernamePasswordA
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
-
         jwtService.sendToken(response ,
                 jwtService.createAccessToken(
                         //회원의 Id(식별값)을 가지고 JWT 발급

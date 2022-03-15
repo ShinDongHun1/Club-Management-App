@@ -1,6 +1,8 @@
 package com.example.memberservice.global.config.security;
 
+import com.example.memberservice.domain.member.repository.MemberRepository;
 import com.example.memberservice.domain.member.service.MemberService;
+import com.example.memberservice.global.filter.JwtAuthenticationFilter;
 import com.example.memberservice.global.filter.StudentIdPasswordJsonAuthenticationFilter;
 import com.example.memberservice.global.jwt.JwtService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -10,6 +12,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
@@ -20,6 +23,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final MemberService memberService;
+    private final MemberRepository memberRepository;
     private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
     private final ObjectMapper objectMapper;
@@ -31,16 +35,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .httpBasic().disable()
                 .formLogin().disable()
 
-                .headers().frameOptions().sameOrigin()
-
-                .and()
                 .authorizeRequests()
-                .antMatchers("/login").permitAll()
+                .antMatchers("/login", "/h2-console").permitAll()
                 .antMatchers(HttpMethod.POST, "/member").permitAll()// /member 로 들어오는 POST 요청은 회원가입이므로 허락
                 .anyRequest().authenticated()
 
                 .and()
-                .addFilter(studentIdPasswordJsonAuthenticationFilter());
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()//해주지 않으면 세션을 공유하기 때문에 로그인 정보가 계속 공유되어버린다(SecurityContextHolder 에 들어있는 정보가 계속해서 공유)
+
+                .headers().frameOptions().sameOrigin()
+
+                .and()
+                .addFilter(studentIdPasswordJsonAuthenticationFilter())
+                .addFilterBefore(jwtAuthenticationFilter(), StudentIdPasswordJsonAuthenticationFilter.class);//WebAsyncManagerIntegrationFilter 앞에 두어도 되지만 일단 이곳에 위치시켰다
     }
 
 
@@ -51,6 +58,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 jwtService,
                 objectMapper
         );
+    }
+
+    private JwtAuthenticationFilter jwtAuthenticationFilter(){
+        return new JwtAuthenticationFilter(jwtService, memberRepository);
     }
 
     @Override

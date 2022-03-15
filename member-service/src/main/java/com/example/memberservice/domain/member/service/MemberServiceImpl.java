@@ -13,8 +13,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-
-import java.sql.Array;
 import java.util.ArrayList;
 
 import static com.example.memberservice.domain.member.exception.MemberExceptionType.NOT_FOUND;
@@ -68,8 +66,6 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
-        System.out.println(username);
         Member member = memberRepository.findByStudentId(username).orElseThrow(() -> new UsernameNotFoundException(username + "이라는 학번을 가진 사람이 없습니다"));
 
         return User.builder().username(member.getStudentId())

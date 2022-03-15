@@ -1,7 +1,5 @@
 package com.example.memberservice.global.jwt;
 
-import net.bytebuddy.asm.TypeReferenceAdjustment;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
@@ -12,7 +10,7 @@ import java.util.Optional;
 public interface JwtService {
     String createAccessToken(Long id);
 
-    Optional<Long> extractMemberId(String jwt);
+    Long extractMemberId(String jwt);
 
     void sendToken(HttpServletResponse response, String jwt);
 

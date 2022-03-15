@@ -19,10 +19,10 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class JwtServiceImpl implements JwtService {
 
-
     private static final String ACCESS_TOKEN_SUBJECT = "AccessToken";
     private static final String USER_ID_CLAIM = "userId";
     private static final String ACCESS_TOKEN_HEADER = "AccessToken";
+
 
 
     @Value("${jwt.secret}")
@@ -30,7 +30,6 @@ public class JwtServiceImpl implements JwtService {
 
     @Value("${jwt.expirationDay}")
     private long accessTokenValidity;//AccessToken 의 유효기간
-
 
     private Algorithm algorithm;
 
@@ -47,7 +46,7 @@ public class JwtServiceImpl implements JwtService {
         return JWT.create()
                 .withSubject(ACCESS_TOKEN_SUBJECT)  //토큰의 제목
                 .withClaim(USER_ID_CLAIM, id)       //토큰의 클레임(정보들)
-                .withExpiresAt(new Date(System.currentTimeMillis() + TimeUnit.DAYS.convert(accessTokenValidity, TimeUnit.DAYS)))
+                .withExpiresAt(new Date(System.currentTimeMillis() + TimeUnit.MILLISECONDS.convert(accessTokenValidity, TimeUnit.DAYS)))
                 .sign(algorithm);
         /*
             HMAC512 :
@@ -59,8 +58,8 @@ public class JwtServiceImpl implements JwtService {
 
 
     @Override
-    public Optional<Long> extractMemberId(String jwt) {
-        return Optional.ofNullable(JWT.require(algorithm).build().verify(jwt).getClaim(USER_ID_CLAIM).asLong());
+    public Long extractMemberId(String jwt) {
+        return JWT.require(algorithm).build().verify(jwt).getClaim(USER_ID_CLAIM).asLong();
     }
 
 

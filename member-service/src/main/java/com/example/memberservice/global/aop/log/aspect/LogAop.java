@@ -23,8 +23,12 @@ public record LogAop(LogTrace logTrace,
 
         TraceStatus status = null;
 
+
+        Long userId = securityService.getLoginUserId();
+        String id = (userId == null) ? null : userId.toString();
+
         try {
-            status = logTrace.begin(joinPoint.getSignature().toShortString(), securityService.getLoginUsername());
+            status = logTrace.begin(joinPoint.getSignature().toShortString(), id);
             Object result = joinPoint.proceed();
 
             logTrace.end(status);
