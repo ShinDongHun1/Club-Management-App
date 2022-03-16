@@ -1,3 +1,1 @@
-rootProject.name = 'club-management-app'
-include("member-service")
-include("club-service")
+rootProject.name = 'club-management-service'
