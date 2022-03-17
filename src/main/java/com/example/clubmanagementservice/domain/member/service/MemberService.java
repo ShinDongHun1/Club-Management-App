@@ -15,7 +15,9 @@ public interface MemberService extends UserDetailsService {
     @Trace
     Long signUp(SignUpDto signUpDto);
 
+    @Trace
     MemberInfoDto getInfo(Long memberId);
 
+    @Trace
     MemberInfoDto getInfoByStudentId(String studentId);
 }

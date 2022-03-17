@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 
+import static com.example.clubmanagementservice.domain.member.exception.MemberExceptionType.ALREADY_EXIST;
 import static com.example.clubmanagementservice.domain.member.exception.MemberExceptionType.NOT_FOUND;
 
 
@@ -45,7 +46,7 @@ public class MemberServiceImpl implements MemberService {
 
 
     private String checkDuplicateStudentId(String studentId) {
-        if(memberRepository.findByStudentId(studentId).isPresent()) throw new MemberException(NOT_FOUND);
+        if(memberRepository.findByStudentId(studentId).isPresent()) throw new MemberException(ALREADY_EXIST);
         return studentId;
     }
 

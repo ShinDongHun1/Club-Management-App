@@ -8,7 +8,9 @@ import org.springframework.http.HttpStatus;
  */
 public enum MemberExceptionType implements ExceptionType {
 
+    ALREADY_EXIST(101, HttpStatus.CONFLICT, "이미 존재하는 학번입니다."),
     NOT_FOUND(104, HttpStatus.NOT_FOUND, "찾으시는 회원이 존재하지 않습니다.");
+
 
     private int errorCode;
     private HttpStatus httpStatus;
