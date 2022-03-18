@@ -1,6 +1,7 @@
 package com.example.clubmanagementservice.domain.member.controller;
 
 import com.example.clubmanagementservice.domain.member.controller.dto.request.SignUpRequest;
+import com.example.clubmanagementservice.domain.member.exception.MemberException;
 import com.example.clubmanagementservice.domain.member.service.MemberService;
 import com.example.clubmanagementservice.global.aop.log.Trace;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +28,7 @@ public class MemberController {
 
     @Trace
     @PostMapping
-    public ResponseEntity<Void> singUp(@RequestBody SignUpRequest signUpRequest){
+    public ResponseEntity<Void> singUp(@RequestBody SignUpRequest signUpRequest) {
         memberService.signUp(signUpRequest.toServiceDto());
         return ResponseEntity.status(CREATED).build();
     }

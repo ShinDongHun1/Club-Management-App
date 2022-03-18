@@ -45,9 +45,8 @@ public class MemberServiceImpl implements MemberService {
     }
 
 
-    private String checkDuplicateStudentId(String studentId) {
+    private void checkDuplicateStudentId(String studentId) {
         if(memberRepository.findByStudentId(studentId).isPresent()) throw new MemberException(ALREADY_EXIST);
-        return studentId;
     }
 
 

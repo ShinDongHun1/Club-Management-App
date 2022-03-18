@@ -1,5 +1,7 @@
 package com.example.clubmanagementservice.global.filter;
 
+import com.example.clubmanagementservice.domain.member.exception.MemberException;
+import com.example.clubmanagementservice.domain.member.exception.MemberExceptionType;
 import com.example.clubmanagementservice.domain.member.service.MemberService;
 import com.example.clubmanagementservice.global.jwt.JwtService;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -85,4 +87,5 @@ public class StudentIdPasswordJsonAuthenticationFilter extends UsernamePasswordA
                         ).getId()
                 ));
     }
+
 }

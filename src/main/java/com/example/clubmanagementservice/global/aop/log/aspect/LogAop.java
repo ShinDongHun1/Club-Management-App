@@ -35,7 +35,6 @@ public record LogAop(LogTrace logTrace,
 
             return result;
         } catch (Throwable e) {
-            e.printStackTrace();
             logTrace.exception(status, e);
             throw e;
         }
