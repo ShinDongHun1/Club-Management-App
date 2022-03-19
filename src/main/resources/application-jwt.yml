@@ -1,0 +1,3 @@
+jwt:
+  secret: bXlDbHViTWFuYWdlbWVudEFwcGxpY2F0aW9u
+  expirationDay: 3
